@@ -79,7 +79,7 @@ getApiKey()
   return fetchData(apiUrl, apiKey);       // fetchData function with the obtained API key 
 })
 .then(data => {
-  console.log('Fetched data:', data);     // se fetch objects
+  console.log('Fetched data:', data);     // see fetch objects
 })
 .catch(error => {
   console.error('Main error:', error.message);

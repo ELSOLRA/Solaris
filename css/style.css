@@ -1,0 +1,173 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Secular+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Lora&family=Secular+One&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+}
+
+body {
+
+      min-height: 100vh;
+      margin: 0;
+
+
+}
+
+.solar-system {
+    background: linear-gradient(90deg, #0C164D 0%, #190B22 100%);
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    min-width: 46rem;
+    overflow: hidden;
+    position: relative;
+
+}
+
+.planetary-system {
+   
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-end;
+    padding-right: 4.25rem;
+    margin-left: 25%;
+}
+
+.sun-container {
+    position: absolute;
+    background-color: #ffd029;
+    box-shadow: 0px 0px 250px rgba(255, 208, 41, 0.2);
+    height: 79.875rem;
+    width: 79.875rem;
+    transform: translate(-92%,-18%);
+    border-radius: 50%;
+    z-index: 2;
+
+}
+
+.sun {
+    
+    height: 100%;
+    width: 100%;
+    background-color: #ffd029;
+    border-radius: 50%;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    padding-top: 4.5rem;
+}
+
+.header__text {
+    color: #FFF;
+
+    text-align: right;
+    font-family: 'Secular One';
+    font-size: 3.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 3.75rem */
+    letter-spacing: 0.3375rem;
+}
+
+.header__subtitle {
+    color: #FFD029;
+
+    text-align: right;
+    font-family: 'Lora';
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 1.5rem */
+    letter-spacing: 0.9rem;
+}
+
+.header__text, 
+.header__subtitle {
+    text-align: right;
+}
+
+.planets {
+    margin: auto 0;
+    display: flex;
+    gap: 1%;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    transform: translateY(-50%);
+
+}
+
+.planet {
+    border-radius: 50%;
+}
+
+.planet__ring {
+    width: 13.63944rem;
+    height: 0.34381rem;
+    transform: rotate(-30deg);
+    background-color: rgba(255, 255, 255, 0.40);
+    border-radius: 50%;
+}
+
+#mercury {
+    width: 0.875rem;
+    height: 0.875rem;
+    background: #888;
+    
+}
+
+#venus {
+    width: 1.625rem;
+    height: 1.625rem;
+    background: #E7CDCD;
+}
+
+#earth {
+    width: 1.75rem;
+    height: 1.75rem;
+    background: #428ED4;
+}
+
+#mars {
+    width: 0.875rem;
+    height: 0.875rem;
+    background: #EF5F5F;
+}
+
+#jupiter {
+    width: 11.75rem;
+    height: 11.75rem;
+    background: #E29468;
+}
+
+#saturn {
+    display: grid;
+    place-items: center;
+    justify-content: center;
+    width: 9rem;
+    height: 9rem;
+    margin: 0 1%;
+    background: #C7AA72;
+}
+
+#uranus {
+    width: 4.125rem;
+    height: 4.125rem;
+    background: #C9D4F1;
+}
+
+#neptune {
+    width: 4.125rem;
+    height: 4.125rem;
+    background-color: #7A91A7;
+}
+
