@@ -10,9 +10,20 @@
   console.error('Error:', error);
 }); */
 
+const solarSystem = document.querySelector('.solar-system');
 const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
 
 let cachedData = {};
+const planetColors = {
+  mercury: '136, 136, 136',
+  venus: '231, 205, 205',
+  earth: '66, 142, 212',
+  mars: '239, 95, 95',
+  jupiter: '226, 148, 104',
+  saturn: '199, 170, 114',
+  uranus: '201, 212, 241',
+  neptune: '122, 145, 167'
+};
 
 
 
@@ -86,4 +97,69 @@ getApiKey()
 });
 
 
+function getRandom(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
+// Function to create stars and set their positions
+function createStars(parentElement) {
+  const numberOfStars = 51; 
+
+  for (let i = 0; i < numberOfStars; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.top = `${getRandom(0, window.innerHeight)}px`;
+    star.style.left = `${getRandom(0, window.innerWidth)}px`;
+    parentElement.append(star);
+  }
+}
+
+function openOverlay(planet) {
+  
+  const overlay = document.getElementById('overlay');
+  const sun = document.getElementById('overlay-sun');
+  
+
+  const planetColor = planetColors[planet.toLowerCase()];
+  
+  sun.style.backgroundColor = `rgba(${planetColor}, 1)`;
+  sun.style.boxShadow = `0 0 0 3.875rem rgba(${planetColor}, 0.1), 0 0 0 7.875rem rgba(${planetColor}, 0.06)`;
+
+  const stars = document.querySelectorAll('.star');
+if (stars.length === 0) {
+  createStars(overlay);
+}
+
+solarSystem.style.display = 'none';
+overlay.style.display = 'flex';
+
+closeButton();
+}
+
+(function init() {
+  // Attach click event listeners to each planet
+  const planets = document.querySelectorAll('.planet');
+  planets.forEach(planet => {
+      planet.addEventListener('click', () => {
+          const planetId = planet.id;
+          openOverlay(planetId);
+      });
+  });
+})();   // init function is invoked immediately!
+
+
+function closeButton() {
+  const closeButton = document.createElement('button');
+  closeButton.textContent = 'X';
+  closeButton.id = 'closeButton';
+  document.getElementById('overlay').append(closeButton);
+
+  closeButton.addEventListener('click', () => {
+      const overlay = document.getElementById('overlay');
+      overlay.style.display = 'none';
+      solarSystem.style.display = 'flex';
+      closeButton.remove(closeButton);
+
+  });
+}
+ 
