@@ -1,6 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Secular+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Lora&family=Secular+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Lora&family=Roboto+Condensed:wght@300&family=Secular+One&display=swap');
 
 * {
     box-sizing: border-box;
@@ -66,10 +67,9 @@ body {
     padding-top: 4.5rem;
 }
 
-.header__text {
+.header__text,
+.planet-description__title {
     color: #FFF;
-
-    text-align: right;
     font-family: 'Secular One';
     font-size: 3.75rem;
     font-style: normal;
@@ -78,10 +78,9 @@ body {
     letter-spacing: 0.3375rem;
 }
 
-.header__subtitle {
+.header__subtitle,
+.planet-description__subtitle {
     color: #FFD029;
-
-    text-align: right;
     font-family: 'Lora';
     font-size: 1.5rem;
     font-style: normal;
@@ -201,14 +200,33 @@ body {
     border-radius: 50%;
 }
 
-  .star {
-    position: absolute;
+.star1 {
     width: 6px;
     height: 6px;
+}
+.star2 {
+    width: 3px;
+    height: 3px;
+}
+.star3 {
+    width: 5.8px;
+    height: 5.8px;
+}
+.star4 {
+    width: 3.2px;
+    height: 3.2px;
+}
+
+.star1,
+.star2,
+.star3,
+.star4 {
+    position: absolute;
     background-color: #fff;
     border-radius: 50%;
     opacity: 0.3;
 }
+
 
 #closeButton {
     position: absolute;
@@ -219,6 +237,34 @@ body {
     border-radius: 50%;
     animation: pulse 2.2s infinite;
     background-color: blue;
+}
+
+.planet-description {
+    margin: auto;
+    display: flex;
+    width: 40rem;
+    height: 42.625rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    background: #c9d4f14a;
+
+}
+
+.planet-info {
+    color: #FFF;
+    font-family: 'Roboto Condensed';
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.9125rem; /*170%;*/  
+    letter-spacing: 0.18rem;
+}
+
+.separator {
+    height: 0.0625rem;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.20);
 }
 
 
