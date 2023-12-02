@@ -11,9 +11,10 @@
 }); */
 
 const solarSystem = document.querySelector('.solar-system');
+const planetsContainer = document.querySelector('.planets');
 const descriptionContainer = document.querySelector('.planet-description');
 const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
-const planetNameMap = {
+/* const planetNameMap = {
   mercury: 'Merkurius',
   venus: 'Venus',
   earth: 'Jorden',
@@ -22,16 +23,16 @@ const planetNameMap = {
   saturn: 'Saturnus',
   uranus: 'Uranus',
   neptune: 'Neptunus'
-};
+}; */
 const planetColors = {
-  mercury: '136, 136, 136',
+  merkurius: '136, 136, 136',
   venus: '231, 205, 205',
-  earth: '66, 142, 212',
+  jorden: '66, 142, 212',
   mars: '239, 95, 95',
   jupiter: '226, 148, 104',
-  saturn: '199, 170, 114',
+  saturnus: '199, 170, 114',
   uranus: '201, 212, 241',
-  neptune: '122, 145, 167'
+  neptunus: '122, 145, 167'
 };
 
 let isDataFetched = false;
@@ -41,16 +42,77 @@ let cachedData = {};
 
 // Function to fetch API key from the server
 
-(function init() {
-  // Attach click event listeners to each planet
-  const planets = document.querySelectorAll('.planet');
-  planets.forEach(planet => {
-      planet.addEventListener('click', () => {
-        const planetId = planet.id;
-        openOverlay(planetId);
-      });
-  });
-})();   // init function is invoked immediately!
+(async function init() {
+  try {
+    const apiKey = await getApiKey();
+    let data = cachedData;
+
+// fetch data, if the data is not cached
+
+    if (Object.keys(data).length === 0) {
+      data = await fetchData(apiUrl, apiKey);
+      cachedData = data;
+    }
+
+    const planets = data.bodies;
+    console.log(data.bodies);
+    let isStar = false;
+    const planetsWithRing = new Set(['saturnus']);
+
+    for (const planet of planets) {
+      if (planet.type === 'star') {
+        isStar = true;
+        const sunContainer = document.createElement('section');
+        sunContainer.className = 'sun-container';
+
+        const sunElement = document.createElement('section');
+        sunElement.className = 'sun';
+        sunElement.id = planet.name.toLowerCase(); 
+        sunContainer.append(sunElement);
+
+        solarSystem.append(sunContainer);
+        break; // iterating stop if a star is found
+      }
+    }
+
+// Creating planet elements dynamically
+
+    planets.forEach(planet => {
+      const planetElement = document.createElement('article');
+      planetElement.className = 'planet';
+      planetElement.id = planet.name.toLowerCase(); //  planet name as the ID
+      planetsContainer.append(planetElement);
+
+// If the planet should have a ring, adding ring element
+
+      if (planetsWithRing.has(planet.name.toLowerCase())) {
+        const ringElement = document.createElement('div');
+        ringElement.className = 'planet__ring';
+        planetElement.append(ringElement);
+      }
+    });
+
+// event listeners to each planet
+
+    planets.forEach(planet => {
+      const planetElement = document.getElementById(planet.name.toLowerCase());
+      if (planetElement) {
+        planetElement.addEventListener('click', () => {
+          openOverlay(planet.name.toLowerCase());
+        });
+      }
+    });
+
+    if (!isStar) {
+
+      console.log('No star in the API !');
+    }
+
+  } catch (error) {
+    console.error('Error initializing:', error.message);
+  }
+})();   // <---   init function is invoked immediately!
+
 
 async function getApiKey() {
   
@@ -124,7 +186,8 @@ function getRandom(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-// Function to create stars and set their positions
+// Function to create different stars and set their positions
+
 async function createStars(parentElement) {
   const starTypes = [
     { type: 'star1', count: 15 },   //6x6
@@ -145,17 +208,17 @@ async function createStars(parentElement) {
   }
 }
 
+// function to show overlay with planet colour, and hide solarSystem layer 
 
+async function openOverlay(planetName) {
 
-async function openOverlay(planet) {
-
-  console.log('Planet:', planet);
+  console.log('Planet:', planetName);
   
   const overlay = document.getElementById('overlay');
   const sun = document.getElementById('overlay-sun');
   const stars = document.querySelectorAll('.star');
 
-  const planetColorName = planet.toLowerCase();
+  const planetColorName = planetName.toLowerCase();
   const planetColor = planetColors[planetColorName];
   
   console.log('Planet color name:', planetColorName, 'Planet color:', planetColor);
@@ -181,17 +244,13 @@ try {
   }
   
 
-  console.log('Planet:', planet);
-  console.log('Clicked planet:', planet);
+  console.log('Planet:', planetName);
+  console.log('Clicked planet:', planetName);
   console.log('Cached data:', cachedData);
   console.log('Bodies array:', cachedData.bodies);
 
   
-  const planetInfo = cachedData.bodies.find(body => body.name.toLowerCase() === planetNameMap[planet].toLowerCase());
-  
- 
-  
-
+  const planetInfo = cachedData.bodies.find(body => body.name.toLowerCase() === planetName.toLowerCase());
 
   
   if (planetInfo) {
@@ -209,7 +268,7 @@ closeButton();
 }
 
 
-
+// function to creat close button and add event listener
 
 function closeButton() {
   const closeButton = document.createElement('button');
@@ -227,7 +286,7 @@ function closeButton() {
 }
  
 
-
+// function for creating description element and taking object keys with their data/values from cachedData  
 
 function updatePlanetDescription(planetInfo) {
 
@@ -236,7 +295,7 @@ function updatePlanetDescription(planetInfo) {
     return;
   }
  
-  descriptionContainer.textContent = '';
+  // descriptionContainer.textContent = '';
   const { name, latinName, desc, circumference, distance, temp, moons } = planetInfo;
 
   const nameElement = document.createElement('h1');
@@ -255,7 +314,8 @@ function updatePlanetDescription(planetInfo) {
   lineElement1.classList.add('separator');
 
   const circumferenceElement = document.createElement('p');
-  circumferenceElement.textContent = `${circumference} km`;
+  circumferenceElement.innerHTML = `Kilometer från <hr> ${circumference} km`;
+
   circumferenceElement.classList.add('planet-info');
 
   const distanceElement = document.createElement('p');
@@ -281,6 +341,8 @@ function updatePlanetDescription(planetInfo) {
     moonsElement.textContent = `Doesn't have any known moons`;
   }
   moonsElement.classList.add('planet-info');
+
+  descriptionContainer.textContent = '';
 
   descriptionContainer.append(
     nameElement,
