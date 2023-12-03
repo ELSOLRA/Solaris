@@ -313,30 +313,35 @@ function updatePlanetDescription(planetInfo) {
   const lineElement1 = document.createElement('hr');
   lineElement1.classList.add('separator');
 
+  const rangeContainer = document.createElement('section');
+  rangeContainer.classList.add ('planet-info__rangeContainer');
   const circumferenceElement = document.createElement('p');
-  circumferenceElement.innerHTML = `Kilometer från <hr> ${circumference} km`;
-
+  circumferenceElement.innerHTML = `<span class="planet-info__titles">OMKRETS</span><br>${circumference} km`;
   circumferenceElement.classList.add('planet-info');
 
   const distanceElement = document.createElement('p');
-  distanceElement.textContent = `${distance} km`;
+  distanceElement.innerHTML = `<span class="planet-info__titles">KM FRÅN SOLEN</span><br>${distance} km`;
   distanceElement.classList.add('planet-info');
+  rangeContainer.append(circumferenceElement, distanceElement);
 
   // Creating separate elements for day and night temperatures
+  const temperaturesContainer = document.createElement('section');
+  temperaturesContainer.classList.add ('planet-info__temperaturesContainer');
   const tempDayElement = document.createElement('p');
-  tempDayElement.textContent = `${temp.day} °C`;
+  tempDayElement.innerHTML = `<span class="planet-info__titles">MAX TEMPERATUR</span><br>${temp.day} C`;
   tempDayElement.classList.add('planet-info');
 
   const tempNightElement = document.createElement('p');
-  tempNightElement.textContent = `${temp.night} °C`;
+  tempNightElement.innerHTML = `<span class="planet-info__titles">MIN TEMPERATUR</span><br>${temp.night} C`;
   tempNightElement.classList.add('planet-info');
+  temperaturesContainer.append(tempDayElement, tempNightElement);
 
   const lineElement2 = document.createElement('hr');
   lineElement2.classList.add('separator');
 
   const moonsElement = document.createElement('p');
   if (moons.length > 0) {
-    moonsElement.textContent = `${moons.join(', ')}`;
+    moonsElement.innerHTML = `<span class="planet-info__titles">MÅNAR</span><br>${moons.join(', ')}`;
   } else {
     moonsElement.textContent = `Doesn't have any known moons`;
   }
@@ -349,10 +354,8 @@ function updatePlanetDescription(planetInfo) {
     latinNameElement,
     descElement,
     lineElement1,
-    circumferenceElement,
-    distanceElement,
-    tempDayElement,
-    tempNightElement,
+    rangeContainer,
+    temperaturesContainer,
     lineElement2,
     moonsElement
   );
