@@ -25,14 +25,15 @@ const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
   neptune: 'Neptunus'
 }; */
 const planetColors = {
-  merkurius: '136, 136, 136',
-  venus: '231, 205, 205',
-  jorden: '66, 142, 212',
-  mars: '239, 95, 95',
-  jupiter: '226, 148, 104',
-  saturnus: '199, 170, 114',
-  uranus: '201, 212, 241',
-  neptunus: '122, 145, 167'
+  planet0: '255, 209, 41',
+  planet1: '136, 136, 136',
+  palnet2: '231, 205, 205',
+  planet3: '66, 142, 212',
+  planet4: '239, 95, 95',
+  planet5: '226, 148, 104',
+  planet6: '199, 170, 114',
+  planet7: '201, 212, 241',
+  planet8: '122, 145, 167'
 };
 
 let isDataFetched = false;
@@ -56,31 +57,22 @@ let cachedData = {};
 
     const planets = data.bodies;
     console.log(data.bodies);
-    let isStar = false;
+    let sunCreated = false;
+    const isStar = data.bodies.some(planet => planet.type === 'star');
     const planetsWithRing = new Set(['saturnus']);
-
-    for (const planet of planets) {
-      if (planet.type === 'star') {
-        isStar = true;
-        const sunContainer = document.createElement('section');
-        sunContainer.className = 'sun-container';
-
-        const sunElement = document.createElement('section');
-        sunElement.className = 'sun';
-        sunElement.id = planet.name.toLowerCase(); 
-        sunContainer.append(sunElement);
-
-        solarSystem.append(sunContainer);
-        break; // iterating stop if a star is found
-      }
-    }
+    // const planetsWithRing = new Set([6]);
 
 // Creating planet elements dynamically
 
     planets.forEach(planet => {
+      if (planet.type === 'star' && !sunCreated) {
+        sunCreated = true;
+        createSunElement(`planet${planet.id}`);
+      } else if (planet.type !== 'star' && planet.type === 'planet' ) {
+      
       const planetElement = document.createElement('article');
       planetElement.className = 'planet';
-      planetElement.id = planet.name.toLowerCase(); //  planet name as the ID
+      planetElement.id = `planet${planet.id}`; //  planet name as the ID
       planetsContainer.append(planetElement);
 
 // If the planet should have a ring, adding ring element
@@ -89,19 +81,34 @@ let cachedData = {};
         const ringElement = document.createElement('div');
         ringElement.className = 'planet__ring';
         planetElement.append(ringElement);
-      }
-    });
+      } 
+  }
+});
 
 // event listeners to each planet
-
     planets.forEach(planet => {
-      const planetElement = document.getElementById(planet.name.toLowerCase());
+      const planetElement = document.getElementById(`planet${planet.id}`);
       if (planetElement) {
         planetElement.addEventListener('click', () => {
-          openOverlay(planet.name.toLowerCase());
+          openOverlay(`planet${planet.id}`);
         });
       }
     });
+
+    function createSunElement(planetId) {
+      const sunContainer = document.createElement('section');
+      sunContainer.className = 'sun-container';
+    
+      const sunElement = document.createElement('section');
+      sunElement.className = 'sun';
+      sunElement.id = planetId;
+      sunElement.addEventListener('click', () => {
+        openOverlay(planetId);
+      });
+      sunContainer.append(sunElement);
+    
+      solarSystem.append(sunContainer);
+    }
 
     if (!isStar) {
 
@@ -210,18 +217,18 @@ async function createStars(parentElement) {
 
 // function to show overlay with planet colour, and hide solarSystem layer 
 
-async function openOverlay(planetName) {
+async function openOverlay(planetId) {
 
-  console.log('Planet:', planetName);
+  console.log('Planet:', planetId );
   
   const overlay = document.getElementById('overlay');
   const sun = document.getElementById('overlay-sun');
   const stars = document.querySelectorAll('.star');
 
-  const planetColorName = planetName.toLowerCase();
-  const planetColor = planetColors[planetColorName];
+  const planetColorByID = planetId.toLowerCase();
+  const planetColor = planetColors[planetColorByID];
   
-  console.log('Planet color name:', planetColorName, 'Planet color:', planetColor);
+  console.log('Planet color name:', planetColorByID, 'Planet color:', planetColor);
   
   sun.style.backgroundColor = `rgba(${planetColor}, 1)`;
   sun.style.boxShadow = `0 0 0 3.875rem rgba(${planetColor}, 0.1), 0 0 0 7.875rem rgba(${planetColor}, 0.06)`;
@@ -244,13 +251,13 @@ try {
   }
   
 
-  console.log('Planet:', planetName);
-  console.log('Clicked planet:', planetName);
+  console.log('Planet:', planetId);
+  console.log('Clicked planet:', planetId);
   console.log('Cached data:', cachedData);
   console.log('Bodies array:', cachedData.bodies);
 
   
-  const planetInfo = cachedData.bodies.find(body => body.name.toLowerCase() === planetName.toLowerCase());
+  const planetInfo = cachedData.bodies.find(body => `planet${body.id}` === planetId);
 
   
   if (planetInfo) {
@@ -316,11 +323,11 @@ function updatePlanetDescription(planetInfo) {
   const rangeContainer = document.createElement('section');
   rangeContainer.classList.add ('planet-info__rangeContainer');
   const circumferenceElement = document.createElement('p');
-  circumferenceElement.innerHTML = `<span class="planet-info__titles">OMKRETS</span><br>${circumference} km`;
+  circumferenceElement.innerHTML = `<span class="planet-info__titles">OMKRETS</span><br>${formatNumber(circumference)} km`;
   circumferenceElement.classList.add('planet-info');
 
   const distanceElement = document.createElement('p');
-  distanceElement.innerHTML = `<span class="planet-info__titles">KM FRÅN SOLEN</span><br>${distance} km`;
+  distanceElement.innerHTML = `<span class="planet-info__titles">KM FRÅN SOLEN</span><br>${formatNumber(distance)} km`;
   distanceElement.classList.add('planet-info');
   rangeContainer.append(circumferenceElement, distanceElement);
 
@@ -359,6 +366,12 @@ function updatePlanetDescription(planetInfo) {
     lineElement2,
     moonsElement
   );
+
+  function formatNumber(number) {
+  
+  // here d{3} are groups of three digits and ?!\d ensures that not followed by another digit
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); 
+  }
 } 
 
 

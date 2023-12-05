@@ -119,38 +119,38 @@ body {
     border-radius: 50%;
 }
 
-#merkurius {
+#planet1 {
     width: 0.875rem;
     height: 0.875rem;
     background: #888;
     
 }
 
-#venus {
+#planet2 {
     width: 1.625rem;
     height: 1.625rem;
     background: #E7CDCD;
 }
 
-#jorden {
+#planet3 {
     width: 1.75rem;
     height: 1.75rem;
     background: #428ED4;
 }
 
-#mars {
+#planet4 {
     width: 0.875rem;
     height: 0.875rem;
     background: #EF5F5F;
 }
 
-#jupiter {
+#planet5 {
     width: 11.75rem;
     height: 11.75rem;
     background: #E29468;
 }
 
-#saturnus {
+#planet6 {
     display: grid;
     place-items: center;
     justify-content: center;
@@ -160,13 +160,13 @@ body {
     background: #C7AA72;
 }
 
-#uranus {
+#planet7 {
     width: 4.125rem;
     height: 4.125rem;
     background: #C9D4F1;
 }
 
-#neptunus {
+#planet8 {
     width: 4.125rem;
     height: 4.125rem;
     background-color: #7A91A7;
@@ -196,7 +196,6 @@ body {
 .overlay-sun {
     height: 100%;
     width: 100%;
-
     border-radius: 50%;
 }
 
@@ -225,6 +224,7 @@ body {
     background-color: #fff;
     border-radius: 50%;
     opacity: 0.3;
+    filter: blur(0.13rem);
 }
 
 
@@ -240,6 +240,7 @@ body {
 }
 
 .planet-description {
+    padding: 1rem 0;
     margin: auto;
     display: flex;
     width: 40rem;
@@ -248,8 +249,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
-    background: #c9d4f14a;
-    overflow-y: auto;
+    z-index: 2;
 
 }
 
@@ -262,6 +262,23 @@ body {
     font-weight: 300;
     line-height: 1.9125rem; /*170%;*/  
     letter-spacing: 0.18rem;
+}
+
+.planet-description p:nth-of-type(1) {
+    overflow-y: auto;
+}
+::-webkit-scrollbar-track {
+    background: rgb(22 13 42 / 0.3);
+    border-radius: 1rem;
+
+}
+::-webkit-scrollbar {
+    width: 0.8rem;
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(0 0 255 / 10%);
+    border-radius: 1rem;
+
 }
 
 .separator {
