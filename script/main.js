@@ -9,11 +9,6 @@
 .catch((error) => {
   console.error('Error:', error);
 }); */
-
-const solarSystem = document.querySelector('.solar-system');
-const planetsContainer = document.querySelector('.planets');
-const descriptionContainer = document.querySelector('.planet-description');
-const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
 /* const planetNameMap = {
   mercury: 'Merkurius',
   venus: 'Venus',
@@ -24,20 +19,20 @@ const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
   uranus: 'Uranus',
   neptune: 'Neptunus'
 }; */
-const planetColors = {
-  planet0: '255, 209, 41',
-  planet1: '136, 136, 136',
-  palnet2: '231, 205, 205',
-  planet3: '66, 142, 212',
-  planet4: '239, 95, 95',
-  planet5: '226, 148, 104',
-  planet6: '199, 170, 114',
-  planet7: '201, 212, 241',
-  planet8: '122, 145, 167'
-};
 
-let isDataFetched = false;
+import { fetchData, getApiKey, apiUrl } from './api.js';
+import { createPlanetElement, createSunElement } from './planets.js'
+import { openOverlay } from './overlay.js'
+
+
+// const planetsContainer = document.querySelector('.planets');
+
+// const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
+
+
+
 let cachedData = {};
+console.log(cachedData);
 
 
 
@@ -47,20 +42,23 @@ let cachedData = {};
   try {
     const apiKey = await getApiKey();
     let data = cachedData;
+    console.log(cachedData);
 
 // fetch data, if the data is not cached
 
     if (Object.keys(data).length === 0) {
       data = await fetchData(apiUrl, apiKey);
       cachedData = data;
+      console.log(cachedData);
     }
 
     const planets = data.bodies;
     console.log(data.bodies);
     let sunCreated = false;
     const isStar = data.bodies.some(planet => planet.type === 'star');
-    const planetsWithRing = new Set(['saturnus']);
+    
     // const planetsWithRing = new Set([6]);
+  
 
 // Creating planet elements dynamically
 
@@ -70,18 +68,7 @@ let cachedData = {};
         createSunElement(`planet${planet.id}`);
       } else if (planet.type !== 'star' && planet.type === 'planet' ) {
       
-      const planetElement = document.createElement('article');
-      planetElement.className = 'planet';
-      planetElement.id = `planet${planet.id}`; //  planet name as the ID
-      planetsContainer.append(planetElement);
-
-// If the planet should have a ring, adding ring element
-
-      if (planetsWithRing.has(planet.name.toLowerCase())) {
-        const ringElement = document.createElement('div');
-        ringElement.className = 'planet__ring';
-        planetElement.append(ringElement);
-      } 
+      createPlanetElement(planet)
   }
 });
 
@@ -95,7 +82,7 @@ let cachedData = {};
       }
     });
 
-    function createSunElement(planetId) {
+/*     function createSunElement(planetId) {
       const sunContainer = document.createElement('section');
       sunContainer.className = 'sun-container';
     
@@ -108,7 +95,7 @@ let cachedData = {};
       sunContainer.append(sunElement);
     
       solarSystem.append(sunContainer);
-    }
+    } */
 
     if (!isStar) {
 
@@ -120,8 +107,7 @@ let cachedData = {};
   }
 })();   // <---   init function is invoked immediately!
 
-
-async function getApiKey() {
+/* async function getApiKey() {
   
   try {
     const response = await fetch(`${apiUrl}/keys`, {
@@ -129,7 +115,7 @@ async function getApiKey() {
       headers: {
         'x-zocom': ''
       },
-/*       body: JSON.stringify({ username, password,}) */ // if needed to send password and user name with request, JSON.stringify is used to format the data in a way that the server expects.
+//      body: JSON.stringify({ username, password,})  // if needed to send password and user name with request, JSON.stringify is used to format the data in a way that the server expects.
     });
 
   if (!response.ok) {
@@ -143,11 +129,11 @@ async function getApiKey() {
     console.error('Error fetching key:', error.message);
     throw error;
     }
-}
+} */
 
 // Function to fetch data from the server and cache it
 
-async function fetchData(apiUrl, key) {
+/* async function fetchData(apiUrl, key) {
   try {
 
     if (Object.keys(cachedData).length !== 0) {
@@ -172,11 +158,25 @@ async function fetchData(apiUrl, key) {
     console.error('Error fetching data:', error.message);
     throw error;
   }
-}
+} */
+
+/* function createPlanetElement(planet, planetsContainer, planetsWithRing) {
+  const planetElement = document.createElement('article');
+  planetElement.className = 'planet';
+  planetElement.id = `planet${planet.id}`;
+  planetsContainer.append(planetElement);
+
+  // If the planet should have a ring, adding ring element
+  if (planetsWithRing.has(planet.name.toLowerCase())) {
+    const ringElement = document.createElement('div');
+    ringElement.className = 'planet__ring';
+    planetElement.append(ringElement);
+  }
+} */
 
 // Initializing getApikey and receiving fetchData
   
-getApiKey()
+/* getApiKey()
 .then(apiKey => {
 
   return fetchData(apiUrl, apiKey);       // fetchData function with the obtained API key 
@@ -186,12 +186,12 @@ getApiKey()
 })
 .catch(error => {
   console.error('Main error:', error.message);
-});
+});*/
 
-
+/* 
 function getRandom(min, max) {
   return Math.random() * (max - min) + min;
-}
+} 
 
 // Function to create different stars and set their positions
 
@@ -213,11 +213,11 @@ async function createStars(parentElement) {
       parentElement.append(star);
     }
   }
-}
+} */
 
 // function to show overlay with planet colour, and hide solarSystem layer 
 
-async function openOverlay(planetId) {
+/* async function openOverlay(planetId) {
 
   console.log('Planet:', planetId );
   
@@ -372,9 +372,5 @@ function updatePlanetDescription(planetInfo) {
   // here d{3} are groups of three digits and ?!\d ensures that not followed by another digit
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); 
   }
-} 
+}  */
 
-
-function displayNoResults() {
-  searchedContent.innerHTML = "<p>No results found for the given search term.</p>";
-}
