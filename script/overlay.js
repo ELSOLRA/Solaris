@@ -1,7 +1,9 @@
+/* Manages the display of information when a planet is clicked. Makes it easier to manage and update the 
+overlay functionality independently. Cleaner and more maintainable structure */
+
 import { createStars } from './stars.js';
 import { fetchData, getApiKey, apiUrl } from './api.js';
 import { solarSystem } from './planets.js'
-
 
 const descriptionContainer = document.querySelector('.planet-description');
 const planetColors = {
@@ -18,7 +20,8 @@ const planetColors = {
   let cachedData = {};
   let isDataFetched = false;
 
-// function to show overlay with planet colour, and hide solarSystem layer 
+//-------- function to show overlay with planet colour, and hide solarSystem layer 
+// Updates the overlay content based on the clicked planet
 
 async function openOverlay(planetId) {
 
@@ -77,7 +80,7 @@ async function openOverlay(planetId) {
   closeButton();
   }
 
-  // function to creat close button and add event listener
+//-------- Function to creat close button on overlay and add event listener
 
 function closeButton() {
     const closeButton = document.createElement('button');
@@ -94,7 +97,8 @@ function closeButton() {
     });
 }
 
-// function for creating description element and taking object keys with their data/values from cachedData  
+//-------- Function for creating description element 
+// Creates and appends HTML elements with information about the clicked planet
 
 function updatePlanetDescription(planetInfo) {
 
@@ -102,8 +106,9 @@ function updatePlanetDescription(planetInfo) {
       console.error('Invalid planetInfo:', planetInfo);
       return;
     }
-   
-    // descriptionContainer.textContent = '';
+
+    descriptionContainer.textContent = '';
+    
     const { name, latinName, desc, circumference, distance, temp, moons } = planetInfo;
   
     const nameElement = document.createElement('h1');
@@ -155,7 +160,7 @@ function updatePlanetDescription(planetInfo) {
     }
     moonsElement.classList.add('planet-info');
   
-    descriptionContainer.textContent = '';
+    
   
     descriptionContainer.append(
       nameElement,
@@ -168,12 +173,13 @@ function updatePlanetDescription(planetInfo) {
       moonsElement
     );
   
-    function formatNumber(number) {
-    
-    // here d{3} are groups of three digits and ?!\d ensures that not followed by another digit
+//-------- Function to format a large number 
+// Adds spaces as thousand separators
+
+    function formatNumber(number) {   
+// here d{3} are groups of three digits and ?!\d ensures that not followed by another digit
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); 
     }
 } 
-
 
 export { createStars, openOverlay, closeButton, updatePlanetDescription };

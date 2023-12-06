@@ -1,5 +1,11 @@
+/* Fetches API key from the server. These functions make more clarity API-handling logic. Isolates server communication 
+logic from other parts. Keeps secret key separate for easy handling. Manages data-fetching tasks, and we want to keep data separate. */
+
 const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
 let cachedData = {};
+
+//-------- Function to get an API key from the server
+// Sends a POST request to the specified API endpoint and returns API key
 
 async function getApiKey() {
   
@@ -9,7 +15,6 @@ async function getApiKey() {
         headers: {
           'x-zocom': ''
         },
-  //       body: JSON.stringify({ username, password,})  // if needed to send password and user name with request, JSON.stringify is used to format the data in a way that the server expects.
       });
   
     if (!response.ok) {
@@ -27,7 +32,8 @@ async function getApiKey() {
   }
 
 
-// Function to fetch data from the server and cache it
+//-------- Function to fetch data from the server and cache it
+// Sends a request to the API endpoint using the API key
 
 async function fetchData(apiUrl, apiKey) {
     try {
@@ -55,6 +61,5 @@ async function fetchData(apiUrl, apiKey) {
       throw error;
     }
 }
-
 
 export { fetchData, getApiKey, apiUrl, cachedData };

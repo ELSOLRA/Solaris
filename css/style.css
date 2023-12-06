@@ -1,7 +1,16 @@
+/*--Fonts import--*/
 
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Secular+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Lora&family=Secular+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,200;0,600;0,700;0,800;0,900;1,200;1,800&family=Lora&family=Roboto+Condensed:wght@300&family=Secular+One&display=swap');
+
+:root {
+    --primary-bg-color: #0C164D;
+    --secondary-bg-color: #190B22;
+    --sun-color: #ffd029;
+    --sun-shadow: rgba(255, 208, 41, 0.2);
+    --text-color: #FFF;
+}
 
 * {
     box-sizing: border-box;
@@ -11,14 +20,13 @@
 
 body {
 
-      min-height: 100vh;
-      margin: 0;
-
-
+    min-height: 100vh;
 }
 
+/*-- Solar system container --*/
+
 .solar-system {
-    background: linear-gradient(90deg, #0C164D 0%, #190B22 100%);
+    background: linear-gradient(90deg, var(--primary-bg-color) 0% , var(--secondary-bg-color) 100%);
     display: flex;
     height: 100vh;
     width: 100%;
@@ -27,6 +35,8 @@ body {
     position: relative;
 
 }
+
+/*-- Planetary system container --*/
 
 .planetary-system {
    
@@ -39,13 +49,15 @@ body {
 
 }
 
+/*-- Sun container --*/
+
 .sun-container {
     position: absolute;
-    /* background-color: #ffd029; */
-    box-shadow: 0px 0px 250px rgba(255, 208, 41, 0.2);
-    height: 79.875rem;
+    box-shadow: 0px 0px 250px var(--sun-shadow);
+    height: 158vh;
+    min-height: 100vh;
     width: 79.875rem;
-    transform: translate(-92%,-18%);
+    transform: translate(-92%,-18.5%);
     border-radius: 50%;
     z-index: 2;
 
@@ -55,13 +67,13 @@ body {
     
     height: 100%;
     width: 100%;
-    background-color: #ffd029;
+    background-color: var(--sun-color);
     border-radius: 50%;
     cursor: pointer;
 }
 .sun:hover {
 
-    box-shadow: 300px 0px 300px rgba(255, 208, 41, 0.3);
+    box-shadow: 35vw 0px 300px rgba(255, 208, 41, 0.3);
 }
 
 .header {
@@ -74,23 +86,23 @@ body {
 
 .header__text,
 .planet-description__title {
-    color: #FFF;
+    color: var(--text-color);
     font-family: 'Secular One';
     font-size: 3.75rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 100%; /* 3.75rem */
+    line-height: 100%; 
     letter-spacing: 0.3375rem;
 }
 
 .header__subtitle,
 .planet-description__subtitle {
-    color: #FFD029;
+    color: var(--sun-color);
     font-family: 'Lora';
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 100%; /* 1.5rem */
+    line-height: 100%; 
     letter-spacing: 0.9rem;
 }
 
@@ -98,6 +110,8 @@ body {
 .header__subtitle {
     text-align: right;
 }
+
+/*-- Planets container --*/
 
 .planets {
     margin: auto 0;
@@ -116,9 +130,11 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
 }
+
 .planet:hover {
     transform: scale(1.05);
 }
+
 #planet1:hover,
 #planet2:hover,
 #planet3:hover,
@@ -133,6 +149,8 @@ body {
     background-color: rgba(255, 255, 255, 0.40);
     border-radius: 50%;
 }
+
+/*-- Planet styles --*/
 
 #planet1 {
     width: 0.875rem;
@@ -187,8 +205,10 @@ body {
     background-color: #7A91A7;
 }
 
+/*-- Overlay styles --*/
+
 .overlay {
-    background: linear-gradient(90deg, #0C164D 0%, #190B22 100%);
+    background: linear-gradient(90deg, var(--primary-bg-color) 0% , var(--secondary-bg-color) 100%);
     display: none;
     height: 100vh;
     width: 100%;
@@ -200,7 +220,7 @@ body {
 
 .overlay-planet {
     position: absolute;
-    box-shadow: 0px 0px 250px rgba(255, 208, 41, 0.2);
+    box-shadow: 0px 0px 250px var(--sun-shadow);
     height: 79.875rem;
     width: 79.875rem;
     transform: translate(-92%,-18%);
@@ -212,6 +232,19 @@ body {
     height: 100%;
     width: 100%;
     border-radius: 50%;
+}
+
+/*-- Stars --*/
+
+.star1,
+.star2,
+.star3,
+.star4 {
+    position: absolute;
+    background-color: var(--text-color);
+    border-radius: 50%;
+    opacity: 0.3;
+    filter: blur(0.13rem);
 }
 
 .star1 {
@@ -231,18 +264,6 @@ body {
     height: 3.2px;
 }
 
-.star1,
-.star2,
-.star3,
-.star4 {
-    position: absolute;
-    background-color: #fff;
-    border-radius: 50%;
-    opacity: 0.3;
-    filter: blur(0.13rem);
-}
-
-
 #closeButton {
     position: absolute;
     top: 10px;
@@ -252,6 +273,7 @@ body {
     border-radius: 50%;
     animation: pulse 2.2s infinite;
     background-color: blue;
+    z-index: 3;
 }
 
 .planet-description {
@@ -271,30 +293,17 @@ body {
 
 .planet-info,
 .planet-info__titles {
-    color: #FFF;
+    color: var(--text-color);
     font-family: 'Roboto Condensed';
     font-size: 1.125rem;
     font-style: normal;
     font-weight: 300;
-    line-height: 1.9125rem; /*170%;*/  
+    line-height: 1.9125rem;  
     letter-spacing: 0.18rem;
 }
 
 .planet-description p:nth-of-type(1) {
     overflow-y: auto;
-}
-::-webkit-scrollbar-track {
-    background: rgb(22 13 42 / 0.3);
-    border-radius: 1rem;
-
-}
-::-webkit-scrollbar {
-    width: 0.8rem;
-}
-::-webkit-scrollbar-thumb {
-    background: rgb(0 0 255 / 10%);
-    border-radius: 1rem;
-
 }
 
 .separator {
@@ -306,7 +315,7 @@ body {
 .planet-info__titles {
     font-family: 'Secular One';
     font-weight: 400;
-    line-height: 100%; /* 1.125rem */
+    line-height: 100%; 
     letter-spacing: 0.10125rem;
 }
 
@@ -317,11 +326,26 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
+
 .planet-info__rangeContainer > p,
 .planet-info__temperaturesContainer > p  {
     margin-right: auto; 
 }
 
+::-webkit-scrollbar-track {
+    background: rgb(22 13 42 / 0.3);
+    border-radius: 1rem;
+
+}
+
+::-webkit-scrollbar {
+    width: 0.8rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(0 0 255 / 10%);
+    border-radius: 1rem;
+}
 
 @keyframes pulse {
     0% {

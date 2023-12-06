@@ -1,11 +1,15 @@
+// A clean structure for handling star-related features, allowing for easy modification and extension without affecting other parts.
+
+//-------- Function to get random number
 
 function getRandom(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-// Function to create different stars and set their positions
+//-------- Function to create different stars and set their positions
 
 async function createStars(container) {
+// Define types and counts of different
   const starTypes = [
     { type: 'star1', count: 15 },   //6x6
     { type: 'star2', count: 22 },   //3x3

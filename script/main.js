@@ -1,52 +1,30 @@
-/* fetch('https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com/keys', {
-  method: 'POST',
-  headers: {
-    'x-zocom': ''
-  }
-})
-.then(response => response.json())
-.then(data => console.log(data))
-.catch((error) => {
-  console.error('Error:', error);
-}); */
-/* const planetNameMap = {
-  mercury: 'Merkurius',
-  venus: 'Venus',
-  earth: 'Jorden',
-  mars: 'Mars',
-  jupiter: 'Jupiter',
-  saturn: 'Saturnus',
-  uranus: 'Uranus',
-  neptune: 'Neptunus'
-}; */
+// Dividing tasks to modules for clarity and logical organization. Each part has a clear role, making it easier to manage.
+/* main.js module serves as the central hub, coordinating the initialization, as the backstage manager.  It manages the flow,
+ fetching data, and creating planets and stars*/
 
 import { fetchData, getApiKey, apiUrl } from './api.js';
 import { createPlanetElement, createSunElement } from './planets.js'
 import { openOverlay } from './overlay.js'
-
-
-// const planetsContainer = document.querySelector('.planets');
-
-// const apiUrl = 'https://n5n3eiyjb0.execute-api.eu-north-1.amazonaws.com';
-
-
 
 let cachedData = {};
 console.log(cachedData);
 
 
 
-// Function to fetch API key from the server
+//-------- Initialization function for solar system
+/* Fetches an API key, retrieves and caches data if not already cached,
+dynamically creates planet, star elements. Event listeners are added to each planet.*/
 
 (async function init() {
   try {
+// Fetch the API key
     const apiKey = await getApiKey();
     let data = cachedData;
     console.log(cachedData);
 
 // fetch data, if the data is not cached
-
     if (Object.keys(data).length === 0) {
+
       data = await fetchData(apiUrl, apiKey);
       cachedData = data;
       console.log(cachedData);
@@ -54,14 +32,13 @@ console.log(cachedData);
 
     const planets = data.bodies;
     console.log(data.bodies);
+
+// Flag to check if sun element has been created
     let sunCreated = false;
+// Check if where is type: 'star' in data    
     const isStar = data.bodies.some(planet => planet.type === 'star');
-    
-    // const planetsWithRing = new Set([6]);
   
-
 // Creating planet elements dynamically
-
     planets.forEach(planet => {
       if (planet.type === 'star' && !sunCreated) {
         sunCreated = true;
@@ -82,21 +59,6 @@ console.log(cachedData);
       }
     });
 
-/*     function createSunElement(planetId) {
-      const sunContainer = document.createElement('section');
-      sunContainer.className = 'sun-container';
-    
-      const sunElement = document.createElement('section');
-      sunElement.className = 'sun';
-      sunElement.id = planetId;
-      sunElement.addEventListener('click', () => {
-        openOverlay(planetId);
-      });
-      sunContainer.append(sunElement);
-    
-      solarSystem.append(sunContainer);
-    } */
-
     if (!isStar) {
 
       console.log('No star in the API !');
@@ -107,270 +69,4 @@ console.log(cachedData);
   }
 })();   // <---   init function is invoked immediately!
 
-/* async function getApiKey() {
-  
-  try {
-    const response = await fetch(`${apiUrl}/keys`, {
-      method: 'POST',
-      headers: {
-        'x-zocom': ''
-      },
-//      body: JSON.stringify({ username, password,})  // if needed to send password and user name with request, JSON.stringify is used to format the data in a way that the server expects.
-    });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
-    const data = await response.json();
-    return data.key;
-
-  } catch (error) {
-    console.error('Error fetching key:', error.message);
-    throw error;
-    }
-} */
-
-// Function to fetch data from the server and cache it
-
-/* async function fetchData(apiUrl, key) {
-  try {
-
-    if (Object.keys(cachedData).length !== 0) {
-      console.log('Using cached data:', cachedData);
-      return cachedData;
-    }
-
-    const response = await fetch(`${apiUrl}/bodies`, {
-      headers: {
-        'x-zocom': `${key}`,
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    cachedData = result;
-    return result;
-  } catch (error) {
-    console.error('Error fetching data:', error.message);
-    throw error;
-  }
-} */
-
-/* function createPlanetElement(planet, planetsContainer, planetsWithRing) {
-  const planetElement = document.createElement('article');
-  planetElement.className = 'planet';
-  planetElement.id = `planet${planet.id}`;
-  planetsContainer.append(planetElement);
-
-  // If the planet should have a ring, adding ring element
-  if (planetsWithRing.has(planet.name.toLowerCase())) {
-    const ringElement = document.createElement('div');
-    ringElement.className = 'planet__ring';
-    planetElement.append(ringElement);
-  }
-} */
-
-// Initializing getApikey and receiving fetchData
-  
-/* getApiKey()
-.then(apiKey => {
-
-  return fetchData(apiUrl, apiKey);       // fetchData function with the obtained API key 
-})
-.then(data => {
-  console.log('Fetched data:', data);     // see fetch objects
-})
-.catch(error => {
-  console.error('Main error:', error.message);
-});*/
-
-/* 
-function getRandom(min, max) {
-  return Math.random() * (max - min) + min;
-} 
-
-// Function to create different stars and set their positions
-
-async function createStars(parentElement) {
-  const starTypes = [
-    { type: 'star1', count: 15 },   //6x6
-    { type: 'star2', count: 22 },   //3x3
-    { type: 'star3', count: 12 },   //5.8x5.8
-    { type: 'star4', count: 2 }     //3x2
-  ];
-  const numberOfStars = 51; 
-
-  for (const { type, count } of starTypes) {
-    for (let i = 0; i < count; i++) {
-      const star = document.createElement('div');
-      star.className = `star ${type}`;
-      star.style.top = `${getRandom(0, window.innerHeight)}px`;
-      star.style.left = `${getRandom(0, window.innerWidth)}px`;
-      parentElement.append(star);
-    }
-  }
-} */
-
-// function to show overlay with planet colour, and hide solarSystem layer 
-
-/* async function openOverlay(planetId) {
-
-  console.log('Planet:', planetId );
-  
-  const overlay = document.getElementById('overlay');
-  const sun = document.getElementById('overlay-sun');
-  const stars = document.querySelectorAll('.star');
-
-  const planetColorByID = planetId.toLowerCase();
-  const planetColor = planetColors[planetColorByID];
-  
-  console.log('Planet color name:', planetColorByID, 'Planet color:', planetColor);
-  
-  sun.style.backgroundColor = `rgba(${planetColor}, 1)`;
-  sun.style.boxShadow = `0 0 0 3.875rem rgba(${planetColor}, 0.1), 0 0 0 7.875rem rgba(${planetColor}, 0.06)`;
-  
-
-if (stars.length === 0) {
-  await createStars(overlay);
-}
-
-solarSystem.style.display = 'none';
-overlay.style.display = 'flex';
-
-try {
-  // Fetch the data only if it has not been fetched before
-  if (!isDataFetched) {
-    const apiKey = await getApiKey();
-    const data = await fetchData(apiUrl, apiKey);
-    cachedData = data;
-    isDataFetched = true; //  the flag to true to avoid repeated fetching
-  }
-  
-
-  console.log('Planet:', planetId);
-  console.log('Clicked planet:', planetId);
-  console.log('Cached data:', cachedData);
-  console.log('Bodies array:', cachedData.bodies);
-
-  
-  const planetInfo = cachedData.bodies.find(body => `planet${body.id}` === planetId);
-
-  
-  if (planetInfo) {
-    
-    console.log('Found planetInfo:', planetInfo);
-     updatePlanetDescription(planetInfo);
-  } else {
-    console.error('Invalid planetInfo:', planetInfo);
-  }
-} catch (error) {
-  console.error('Error fetching or processing data:', error.message);
-}
-
-closeButton();
-}
-
-
-// function to creat close button and add event listener
-
-function closeButton() {
-  const closeButton = document.createElement('button');
-  closeButton.textContent = 'X';
-  closeButton.id = 'closeButton';
-  document.getElementById('overlay').append(closeButton);
-
-  closeButton.addEventListener('click', () => {
-      const overlay = document.getElementById('overlay');
-      overlay.style.display = 'none';
-      solarSystem.style.display = 'flex';
-      closeButton.remove(closeButton);
-
-  });
-}
- 
-
-// function for creating description element and taking object keys with their data/values from cachedData  
-
-function updatePlanetDescription(planetInfo) {
-
-  if (!planetInfo) {
-    console.error('Invalid planetInfo:', planetInfo);
-    return;
-  }
- 
-  // descriptionContainer.textContent = '';
-  const { name, latinName, desc, circumference, distance, temp, moons } = planetInfo;
-
-  const nameElement = document.createElement('h1');
-  nameElement.textContent = `${name}`;
-  nameElement.classList.add('planet-description__title');
-
-  const latinNameElement = document.createElement('h3');
-  latinNameElement.textContent = `${latinName}`;
-  latinNameElement.classList.add('planet-description__subtitle');
-
-  const descElement = document.createElement('p');
-  descElement.textContent = `${desc}`;
-  descElement.classList.add('planet-info');
-
-  const lineElement1 = document.createElement('hr');
-  lineElement1.classList.add('separator');
-
-  const rangeContainer = document.createElement('section');
-  rangeContainer.classList.add ('planet-info__rangeContainer');
-  const circumferenceElement = document.createElement('p');
-  circumferenceElement.innerHTML = `<span class="planet-info__titles">OMKRETS</span><br>${formatNumber(circumference)} km`;
-  circumferenceElement.classList.add('planet-info');
-
-  const distanceElement = document.createElement('p');
-  distanceElement.innerHTML = `<span class="planet-info__titles">KM FRÅN SOLEN</span><br>${formatNumber(distance)} km`;
-  distanceElement.classList.add('planet-info');
-  rangeContainer.append(circumferenceElement, distanceElement);
-
-  // Creating separate elements for day and night temperatures
-  const temperaturesContainer = document.createElement('section');
-  temperaturesContainer.classList.add ('planet-info__temperaturesContainer');
-  const tempDayElement = document.createElement('p');
-  tempDayElement.innerHTML = `<span class="planet-info__titles">MAX TEMPERATUR</span><br>${temp.day} C`;
-  tempDayElement.classList.add('planet-info');
-
-  const tempNightElement = document.createElement('p');
-  tempNightElement.innerHTML = `<span class="planet-info__titles">MIN TEMPERATUR</span><br>${temp.night} C`;
-  tempNightElement.classList.add('planet-info');
-  temperaturesContainer.append(tempDayElement, tempNightElement);
-
-  const lineElement2 = document.createElement('hr');
-  lineElement2.classList.add('separator');
-
-  const moonsElement = document.createElement('p');
-  if (moons.length > 0) {
-    moonsElement.innerHTML = `<span class="planet-info__titles">MÅNAR</span><br>${moons.join(', ')}`;
-  } else {
-    moonsElement.textContent = `Doesn't have any known moons`;
-  }
-  moonsElement.classList.add('planet-info');
-
-  descriptionContainer.textContent = '';
-
-  descriptionContainer.append(
-    nameElement,
-    latinNameElement,
-    descElement,
-    lineElement1,
-    rangeContainer,
-    temperaturesContainer,
-    lineElement2,
-    moonsElement
-  );
-
-  function formatNumber(number) {
-  
-  // here d{3} are groups of three digits and ?!\d ensures that not followed by another digit
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' '); 
-  }
-}  */
 
