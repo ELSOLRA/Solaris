@@ -76,6 +76,8 @@ body {
     box-shadow: 35vw 0px 300px rgba(255, 208, 41, 0.3);
 }
 
+/*-- Header container --*/
+
 .header {
     width: 100%;
     display: flex;
@@ -248,33 +250,35 @@ body {
 }
 
 .star1 {
-    width: 6px;
-    height: 6px;
+    width: 0.375rem;
+    height: 0.375rem;
 }
 .star2 {
-    width: 3px;
-    height: 3px;
+    width: 0.188rem;
+    height: 0.188rem;
 }
 .star3 {
-    width: 5.8px;
-    height: 5.8px;
+    width: 0.363rem;
+    height: 0.363rem;
 }
 .star4 {
-    width: 3.2px;
-    height: 3.2px;
+    width: 0.2rem;
+    height: 0.2rem;
 }
 
 #closeButton {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.25rem;
     cursor: pointer;
     border-radius: 50%;
     animation: pulse 2.2s infinite;
     background-color: blue;
     z-index: 3;
 }
+
+/*-- Planet description container --*/
 
 .planet-description {
     padding: 1rem 0;
@@ -286,7 +290,6 @@ body {
     gap: 2rem;
     z-index: 2;
     margin-inline-start: 25%;
-    align-content: center;
     justify-content: center;
 
 }
@@ -302,8 +305,9 @@ body {
     letter-spacing: 0.18rem;
 }
 
-.planet-description p:nth-of-type(1) {
+.planet-info--scrollable {
     overflow-y: auto;
+    letter-spacing: normal;
 }
 
 .separator {
@@ -354,9 +358,10 @@ body {
       color: rgba(255, 255, 0, 0.802);
     }
     50% {
-      transform: scale(1.2);
+      transform: scale(1.25);
       opacity: 1;
       color: yellow;
+
     }
     100% {
       transform: scale(1);

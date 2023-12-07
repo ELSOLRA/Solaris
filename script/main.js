@@ -7,9 +7,6 @@ import { createPlanetElement, createSunElement } from './planets.js'
 import { openOverlay } from './overlay.js'
 
 let cachedData = {};
-console.log(cachedData);
-
-
 
 //-------- Initialization function for solar system
 /* Fetches an API key, retrieves and caches data if not already cached,
@@ -20,24 +17,19 @@ dynamically creates planet, star elements. Event listeners are added to each pla
 // Fetch the API key
     const apiKey = await getApiKey();
     let data = cachedData;
-    console.log(cachedData);
 
 // fetch data, if the data is not cached
     if (Object.keys(data).length === 0) {
 
       data = await fetchData(apiUrl, apiKey);
       cachedData = data;
-      console.log(cachedData);
     }
 
     const planets = data.bodies;
-    console.log(data.bodies);
-
 // Flag to check if sun element has been created
     let sunCreated = false;
 // Check if where is type: 'star' in data    
-    const isStar = data.bodies.some(planet => planet.type === 'star');
-  
+    const isStar = data.bodies.some(planet => planet.type === 'star'); 
 // Creating planet elements dynamically
     planets.forEach(planet => {
       if (planet.type === 'star' && !sunCreated) {
@@ -67,6 +59,6 @@ dynamically creates planet, star elements. Event listeners are added to each pla
   } catch (error) {
     console.error('Error initializing:', error.message);
   }
-})();   // <---   init function is invoked immediately!
+})();   // <----   init function is invoked immediately!
 
 

@@ -9,7 +9,7 @@ function getRandom(min, max) {
 //-------- Function to create different stars and set their positions
 
 async function createStars(container) {
-// Define types and counts of different
+// Define types and counts of different stars
   const starTypes = [
     { type: 'star1', count: 15 },   //6x6
     { type: 'star2', count: 22 },   //3x3
