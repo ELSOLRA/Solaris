@@ -15,8 +15,8 @@ git clone https://github.com/ELSOLRA/Solaris.git
 
 ## Screenshots
 
-### Screenshot 1
+### Main Page
 <img src="assets/screenshots/screenshot-1-2023-12-07.jpg" alt="Mainpage" width="400"/>
 
-### Screenshot 2
+### Overlay
 <img src="assets/screenshots/screenshot-2-2023-12-07.jpg" alt="Overlay" width="400">
