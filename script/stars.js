@@ -16,7 +16,6 @@ async function createStars(container) {
     { type: 'star3', count: 12 },   //5.8x5.8
     { type: 'star4', count: 2 }     //3x2
   ];
-  const numberOfStars = 51; 
 
   for (const { type, count } of starTypes) {
     for (let i = 0; i < count; i++) {

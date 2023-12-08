@@ -6,6 +6,9 @@ import { fetchData, getApiKey, apiUrl } from './api.js';
 import { createPlanetElement, createSunElement } from './planets.js'
 import { openOverlay } from './overlay.js'
 
+// const { createPlanetElement, createSunElement } = require('./planets')  // node
+
+
 let cachedData = {};
 
 //-------- Initialization function for solar system

@@ -170,6 +170,7 @@ function updatePlanetDescription(planetInfo) {
   function formatNumber(number) {
     // here d{3} are groups of three digits and ?!\d ensures that not followed by another digit
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    // number.toLocaleString()
   }
 } 
 
